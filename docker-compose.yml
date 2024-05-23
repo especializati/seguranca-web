@@ -1,0 +1,64 @@
+version: "3.7"
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - redis
+        networks:
+            - app-php
+
+    nginx:
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - "8891:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        networks:
+            - app-php
+
+    db:
+        image: postgres:latest
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: ${DB_USERNAME:-admin}
+            POSTGRES_PASSWORD: ${DB_PASSWORD:-admin}
+            PGDATA: /data/postgres
+        volumes:
+            - ./.docker/postgres:/data/postgres
+        ports:
+            - "5431:5432"
+        networks:
+            - app-php
+
+    pgadmin:
+        image: dpage/pgadmin4
+        restart: unless-stopped
+        environment:
+            PGADMIN_DEFAULT_EMAIL: contato@especializati.com.br
+            PGADMIN_DEFAULT_PASSWORD: ${DB_PASSWORD:-admin}
+        volumes:
+            - ./.docker/pgadmin:/var/lib/pgadmin
+        ports:
+            - "8002:80"
+        depends_on:
+            - db
+        networks:
+            - app-php
+
+    redis:
+        image: redis:latest
+        networks:
+            - app-php
+
+networks:
+    app-php:
+        driver: bridge
