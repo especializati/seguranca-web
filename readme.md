@@ -24,6 +24,7 @@ curl -X POST http://localhost:8891/sql_injection_fixed.php \
     - Criptografar dados sensíveis
  - Frameworks, eles ajudam sim!!!
  - use https (roubo de cookies)
+   - Cloudflare
  - não estourar exceptions com dados sensíveis
  - não deixar dados sensíveis expostos no servidor (.env, .sql, .log)
  - usar senhas fortes
