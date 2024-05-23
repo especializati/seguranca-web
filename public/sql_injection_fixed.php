@@ -1,6 +1,12 @@
 <?php
 
+session_start();
+
 require_once __DIR__ . '/conn.php';
+
+if (!isset($_SESSION['_csrf']) || (isset($_SESSION['_csrf']) && $_SESSION['_csrf'] !== $_POST['_csrf'])) {
+    throw new Exception('CSRF token invalid');
+}
 
 if (isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
@@ -16,3 +22,5 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         echo "Login failed";
     }
 }
+
+$_SESSION['_csrf'] = hash('sha256', random_bytes(32));

@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+$_SESSION['_csrf'] = $_SESSION['_csrf'] ?? hash('sha256', random_bytes(32));
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +21,7 @@
                         Sign in to your account
                     </h1>
                     <form class="space-y-4 md:space-y-6" action="sql_injection_fixed.php" method="POST">
+                        <input type="hidden" name="_csrf" value="<?php echo $_SESSION['_csrf']; ?>">
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                             <label>Postgres: <i class="bg-red-300">admin@admin.com' or true; --</i></label><br>
