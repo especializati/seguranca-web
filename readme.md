@@ -1,4 +1,8 @@
 # Curso de Segurança em Aplicações Web (com PHP)
+- :movie_camera: [Acesse o Curso](https://academy.especializati.com.br/curso/seguranca-aplicacoes-web-com-php).
+
+Links Úteis:
+- :tada: [Saiba Mais](https://linktr.ee/especializati)
 
 ## SQL Injection
 Usar PDO corretamente
